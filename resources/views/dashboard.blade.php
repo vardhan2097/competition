@@ -5,6 +5,7 @@
     <h2>{{ Auth::user()->organization->name }}</h2>
     <p>Welcome, {{ Auth::user()->name ?? Auth::user()->email }}!</p>
 
+    @if(Auth::user()->role_id == 1)
     <div class="row">
 
         {{-- Manage Organization Users --}}
@@ -40,5 +41,6 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 @endsection
