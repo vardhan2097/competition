@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\OrganizationSetupController;
 use App\Http\Controllers\Admin\UserInvitationController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\UserOrganizationController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 /*
@@ -37,7 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function()
     })->name('dashboard');
 
     Route::prefix('organization')->name('organization.')->group(function()
-    {   
+    {
         // view & manage users
         Route::get('users', [UserOrganizationController::class, 'indexUsers'])->name('users.index');
 
@@ -49,6 +50,14 @@ Route::middleware(['auth', 'verified'])->group(function()
         Route::get('details/edit', [UserOrganizationController::class, 'editDetails'])->name('details.edit');
         Route::post('details/update', [UserOrganizationController::class, 'updateDetails'])->name('details.update');
     });
+
+    // For fetching events via AJAX
+    Route::get('/calendar-events', [EventController::class, 'calendarEvents'])->name('events.index');
+
+    // For saving a new event (via AJAX or modal form)
+    Route::post('/calendar-events', [EventController::class, 'store'])->name('events.store');
+
+    Route::put('/calendar-events/{id}', [EventController::class, 'update'])->name('events.update');
 });
 
 Route::get('invitation/accept/{token}', [UserOrganizationController::class, 'acceptInvitation'])->name('invitation.accept');
