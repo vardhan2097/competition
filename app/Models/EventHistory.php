@@ -9,9 +9,17 @@ class EventHistory extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'event_id',
+        'changes',
+        'event_created_at',
+        'updated_by',
+        'action',
+    ];
+
     protected $casts = [
         'changes' => 'array',
-        'changed_at' => 'datetime',
+        'event_created_at' => 'datetime',
     ];
 
     public function event()

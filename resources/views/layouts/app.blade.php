@@ -65,6 +65,7 @@
         @endif
 
         @yield('content')
+        @yield('scripts')
     </main>
 
     <!-- Bootstrap JS -->
