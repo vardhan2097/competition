@@ -7,6 +7,7 @@ use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\UserOrganizationController;
 use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\ReportsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,7 +49,9 @@ Route::middleware(['auth', 'verified'])->group(function()
 
         // edit organization details
         Route::get('details/edit', [UserOrganizationController::class, 'editDetails'])->name('details.edit');
-        Route::post('details/update', [UserOrganizationController::class, 'updateDetails'])->name('details.update');
+        Route::put('details/update', [UserOrganizationController::class, 'updateDetails'])->name('details.update');
+
+        Route::get('reports', [ReportsController::class, 'index'])->name('reports.index');
     });
 
     // For fetching events via AJAX
@@ -82,10 +85,5 @@ Route::prefix('admin')->name('admin.')->group(function()
         Route::post('organization/store',[OrganizationSetupController::class,'store'])->name('organization.store');
 
         Route::get('organization', [OrganizationSetupController::class, 'index'])->name('organization.index');
-
-        // Route::get('people/manage', [UserInvitationController::class, 'index'])->name('people.manage');
-        // Route::get('people/invite', [UserInvitationController::class, 'create'])->name('people.invite');
-        // Route::post('people/invite', [UserInvitationController::class, 'store'])->name('people.invite.store');
-
     });
 });

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\Mail\UserInvitationMail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Exception;
 
 class UserOrganizationController extends Controller
@@ -132,5 +133,45 @@ class UserOrganizationController extends Controller
             // dd($e->getMessage());
             return redirect()->back()->with('error', $e->getMessage());
         }
+    }
+
+    public function editDetails(Request $request)
+    {
+        $organization = Organization::find(Auth::guard('web')->user()->org_id);
+        return view('organization.users.edit', compact('organization'));
+    }
+
+    public function updateDetails(Request $request)
+    {
+        // dd($request->all());
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'is_active' => ['required', 'boolean'],
+        ]);
+
+        $organization = Organization::find(Auth::guard('web')->user()->org_id);
+
+
+        $data = [
+            'name' => $request->name,
+            'address' => $request->address,
+            'is_active' => $request->is_active,
+        ];
+
+        if($request->hasFile('logo'))
+        {
+            if($organization->logo)
+            {
+                Storage::disk('public')->delete($organization->logo);
+            }
+            $data['logo'] = $request->file('logo')->store('Organization_logos', 'public');
+        }
+
+        $organization->update($data);
+
+        return redirect()->route('dashboard')->with('success', 'Organization Updated Successfully!');
+
     }
 }

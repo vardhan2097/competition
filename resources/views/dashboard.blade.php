@@ -12,6 +12,20 @@
     <h2>{{ Auth::user()->organization->name }}</h2>
     <p>Welcome, {{ Auth::user()->name ?? Auth::user()->email }}!</p>
 
+    <div class="container">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+    </div>
+
     @if(Auth::user()->role_id == 1)
     <div class="row">
 
@@ -32,7 +46,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Organization Details</h5>
                     <p class="card-text">Update Organizatio's Profile & Settings</p>
-                    {{-- <a href="{{ route('organization.details.edit')}}"></a> --}}
+                    <a href="{{ route('organization.details.edit')}}" class="btn btn-primary">Edit Organization Details</a>
                 </div>
             </div>
         </div>
@@ -43,7 +57,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Generate Reports</h5>
                     <p class="card-text">Generate and view Performance and Activity Report</p>
-                    {{-- <a href="{{ route('organization.reports.index') }}" class="btn btn-primary">Generate</a> --}}
+                    <a href="{{ route('organization.reports.index') }}" class="btn btn-primary">Generate Reports</a>
                 </div>
             </div>
         </div>
@@ -315,6 +329,17 @@
             `;
             container.appendChild(row);
         }
+
+        setTimeout(() =>
+        {
+            const alert = document.querySelectorAll('.alert-success');
+            alert.forEach(alert => {
+                alert.classList.remove('show')
+                alert.classList.add('fade')
+                setTimeout(() => alert.remove(), 500);
+            });
+        }, 5000); // 5 seconds
+
     </script>
 
 @endsection
