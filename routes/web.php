@@ -52,6 +52,14 @@ Route::middleware(['auth', 'verified'])->group(function()
         Route::put('details/update', [UserOrganizationController::class, 'updateDetails'])->name('details.update');
 
         Route::get('reports', [ReportsController::class, 'index'])->name('reports.index');
+        Route::get('reports/events', [ReportsController::class, 'eventsReportForm'])->name('reports.events');
+        Route::get('reports/spend', [ReportsController::class, 'spendReportForm'])->name('reports.spend');
+        Route::post('reports/events-generate', [ReportsController::class, 'generateEventsReport'])->name('generate.eventsReport');
+        Route::post('reports/spend-generate', [ReportsController::class, 'generateSpendReport'])->name('generate.spendReport');
+
+        Route::post('reports/events-download', [ReportsController::class, 'downloadEventsReport'])->name('download.eventsReport');
+        Route::post('reports/spend-download', [ReportsController::class, 'downloadSpendReport'])->name('download.spendReport');
+
     });
 
     // For fetching events via AJAX

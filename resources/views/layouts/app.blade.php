@@ -14,7 +14,7 @@
 <body>
     <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
+            <a class="navbar-brand" href="{{ url('/dashboard') }}">
                 {{ config('app.name', 'Laravel') }}
             </a>
 
@@ -30,24 +30,19 @@
                 <ul class="navbar-nav ms-auto">
                     @guest
                         <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li>
+                        {{-- <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li> --}}
                     @else
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                                 {{ Auth::user()->name }}
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            {{-- <ul class="dropdown-menu dropdown-menu-end"> --}}
+                                <li class="nav-item">
+                                    <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Are you sure you want to logout?');">
                                         @csrf
+                                        <button type="submit" class="btn btn-outline-danger ms-2">Logout</button>
                                     </form>
                                 </li>
-                            </ul>
                         </li>
                     @endguest
                 </ul>
